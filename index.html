@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Pain</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(to bottom, #d35400, #a04000);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.5s ease-out;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .fade-out {
+            opacity: 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem 0;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin: 0 0 2rem 0;
+            opacity: 0.8;
+        }
+
+        .pain-button {
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            background: white;
+            color: #a04000;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .pain-button:hover {
+            transform: scale(1.05);
+        }
+
+        .pain-button .small-text {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pain-button .large-text {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .journal-heading {
+            font-size: 1.8rem;
+            margin: 0 0 2rem 0;
+            font-weight: 300;
+        }
+
+        textarea {
+            width: 90%;
+            max-width: 400px;
+            height: 50vh;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem;
+            font-size: 1rem;
+            color: white;
+            resize: none;
+            outline: none;
+        }
+
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .lighter-button {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .lighter-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .message {
+            display: none;
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .message.show {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+            .pain-button {
+                width: 200px;
+                height: 200px;
+            }
+            .pain-button .large-text {
+                font-size: 1.8rem;
+            }
+            .journal-heading {
+                font-size: 1.5rem;
+            }
+            textarea {
+                height: 40vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="home" class="screen active">
+        <h1>My Pain</h1>
+        <p class="subtitle">This is your space. No one else is here.</p>
+        <button class="pain-button" id="enter-pain">
+            <span class="small-text">I am in</span>
+            <span class="large-text">PAIN</span>
+        </button>
+    </div>
+
+    <div id="journal" class="screen">
+        <h2 class="journal-heading">Write your pain. Write everything.</h2>
+        <textarea id="pain-text" placeholder="Start writing... let it out."></textarea>
+        <button class="lighter-button" id="feel-lighter">I feel lighter</button>
+    </div>
+
+    <div id="message" class="screen message">
+        It's all okay now. You are better.
+    </div>
+
+    <script>
+        const home = document.getElementById('home');
+        const journal = document.getElementById('journal');
+        const message = document.getElementById('message');
+        const enterPainBtn = document.getElementById('enter-pain');
+        const feelLighterBtn = document.getElementById('feel-lighter');
+        const painText = document.getElementById('pain-text');
+        const body = document.body;
+
+        enterPainBtn.addEventListener('click', () => {
+            home.classList.remove('active');
+            journal.classList.add('active');
+        });
+
+        feelLighterBtn.addEventListener('click', () => {
+            journal.classList.remove('active');
+            message.classList.add('active', 'show');
+            setTimeout(() => {
+                message.classList.remove('show');
+                body.classList.add('fade-out');
+                setTimeout(() => {
+                    body.classList.remove('fade-out');
+                    message.classList.remove('active');
+                    home.classList.add('active');
+                    painText.value = '';
+                }, 1500);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
